@@ -2,10 +2,16 @@ public class ItemStack {
     private Item item;
     private int quantity;
     public ItemStack() {
+        item = new Item();
+        quantity = 0;
     }
 
     public ItemStack(Item item, int quantity) {
         this.item = item;
+        if(quantity < 0 || quantity > item.getMaxStackSize()){
+            System.out.println("Invalid quantity");
+            return;
+        }
         this.quantity = quantity;
     }
     public Item getItem() {
@@ -21,12 +27,10 @@ public class ItemStack {
     }
 
     public void setQuantity(int quantity) {
-        if(quantity > 0 && quantity <= item.getMaxStackSize()){
-            this.quantity = quantity;
-        }
-        else {
+        if(quantity < 0 || quantity > item.getMaxStackSize()){
             System.out.println("Invalid quantity");
+            return;
         }
+        this.quantity = quantity;
     }
-
 }

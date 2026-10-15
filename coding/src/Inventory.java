@@ -27,8 +27,8 @@ public class Inventory {
                     items.get(i).setQuantity(items.get(i).getQuantity() + itemStackToAdd.getQuantity());
                     return capacity;
                 } else {
-                    items.get(i).setQuantity(itemStackToAdd.getItem().getMaxStackSize());
                     itemStackToAdd.setQuantity(itemStackToAdd.getQuantity() + items.get(i).getQuantity() - itemStackToAdd.getItem().getMaxStackSize());
+                    items.get(i).setQuantity(itemStackToAdd.getItem().getMaxStackSize());
                 }
             }//执行完后，itemStackToAdd的quantity即为剩余未添加的数量
         }
@@ -36,22 +36,24 @@ public class Inventory {
             items.add(itemStackToAdd);
             return --capacity;
         } else {
-            return itemStackToAdd.getQuantity();
+            return -itemStackToAdd.getQuantity();
         }
     }
 
     public boolean removeItem(String itemName, int amountToRemove) {
+        if(getItemCount(itemName) < amountToRemove) return false;
         for (int i = 0; i < items.size(); i++) {
             if (itemName.equals(items.get(i).getItem().getName())) {
                 int nowQuantity = items.get(i).getQuantity();
                 items.get(i).setQuantity(Math.max(nowQuantity - amountToRemove, 0));
                 amountToRemove = Math.max(amountToRemove - nowQuantity, 0);
+                if(items.get(i).getQuantity() == 0) {
+                    items.remove(i--);
+                    capacity++;
+                }
             }
         }
-        if (amountToRemove == 0)
-            return true;
-        else
-            return false;
+        return true;
     }
 
     public int getItemCount(String itemName) {

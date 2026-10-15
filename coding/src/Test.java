@@ -17,6 +17,11 @@ public class Test {
         inventory.addItem(new ItemStack(diamondSword,1));
         inventory.display();
 
+        for (int i = 0; i < 35; i++) {
+            inventory.addItem(new ItemStack(planks,64));
+        }
+        inventory.display();
+
         inventory.removeItem("石头", 10);
         inventory.display();
     }
